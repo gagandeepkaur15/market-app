@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:goose_task/screens/authToggle.dart';
+import 'package:goose_task/screens/bnb.dart';
 import 'package:goose_task/screens/profile.dart';
 import 'package:goose_task/screens/register.dart';
+import 'package:goose_task/screens/sell.dart';
 import 'package:goose_task/screens/signin.dart';
 import 'package:goose_task/screens/signin_screen_2.dart';
 import 'package:goose_task/services/auth.dart';
@@ -38,6 +40,8 @@ class MyApp extends StatelessWidget {
             '/register': ((context) => const Register()),
             '/signin2': ((context) => const SignIn2()),
             '/profile': ((context) => const Profile()),
+            '/bnb': ((context) => const BNB()),
+            '/sell': ((context) => const Sell()),
           },
         ),
       );

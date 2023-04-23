@@ -183,7 +183,7 @@ class _RegisterState extends State<Register> {
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, 'signin2');
+                        Navigator.pushNamed(context, '/profile');
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(
@@ -196,15 +196,10 @@ class _RegisterState extends State<Register> {
                         ),
                         height: 8.h,
                         width: 55.h,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/profile');
-                          },
-                          child: const Center(
-                            child: Text(
-                              'Continue',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        child: const Center(
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
