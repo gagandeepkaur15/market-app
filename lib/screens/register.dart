@@ -10,13 +10,57 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  TextEditingController _username = TextEditingController();
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
-  TextEditingController _confirmPass = TextEditingController();
+  final TextEditingController _username = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _confirmPass = TextEditingController();
   bool? _isChecked = false;
+  var _text = "";
 
-  Auth _auth = Auth();
+  final Auth _auth = Auth();
+
+  String? get _errorTextPass {
+    final text = _password.value.text;
+    if (text.isEmpty) {
+      return 'Can\'t be empty';
+    }
+    if (text.length < 6) {
+      return 'Password should be 6 letters long';
+    }
+    return null;
+  }
+
+  String? get _errorTextConfirm {
+    final text1 = _password.value.text;
+    final text2 = _confirmPass.value.text;
+    if (text1 != text2) {
+      return 'Passwords don\'t match';
+    }
+    return null;
+  }
+
+  String? get _errorTextEmail {
+    final text = _email.value.text;
+    if (text.isEmpty) {
+      return 'Can\'t be empty';
+    }
+    if (text.length < 7 && !text.contains('@')) {
+      return 'Enter correct email';
+    }
+    return null;
+  }
+
+  void registerUser() {
+    _auth
+        .register(
+            _email.text, _password.text, _username.text, _confirmPass.text)
+        .then((value) {
+      Navigator.pushNamed(context, '/signin2');
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('User Registered'),
+      ));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,18 +127,21 @@ class _RegisterState extends State<Register> {
                   style: const TextStyle(color: Colors.white),
                   cursorColor: const Color.fromARGB(225, 248, 86, 88),
                   controller: _email,
-                  decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
+                  decoration: InputDecoration(
+                    errorText: _errorTextEmail,
+                    errorStyle: const TextStyle(color: Colors.red),
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(225, 248, 86, 88),
                       ),
                     ),
-                    enabledBorder: UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(225, 248, 86, 88),
                       ),
                     ),
                   ),
+                  onChanged: (text) => setState(() => _text),
                 ),
                 SizedBox(
                   height: 4.h,
@@ -111,18 +158,21 @@ class _RegisterState extends State<Register> {
                   style: const TextStyle(color: Colors.white),
                   cursorColor: const Color.fromARGB(225, 248, 86, 88),
                   controller: _password,
-                  decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
+                  decoration: InputDecoration(
+                    errorText: _errorTextPass,
+                    errorStyle: const TextStyle(color: Colors.red),
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(225, 248, 86, 88),
                       ),
                     ),
-                    enabledBorder: UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(225, 248, 86, 88),
                       ),
                     ),
                   ),
+                  onChanged: (_) => setState(() {}),
                 ),
                 SizedBox(
                   height: 4.h,
@@ -139,18 +189,21 @@ class _RegisterState extends State<Register> {
                   style: const TextStyle(color: Colors.white),
                   cursorColor: const Color.fromARGB(225, 248, 86, 88),
                   controller: _confirmPass,
-                  decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
+                  decoration: InputDecoration(
+                    errorText: _errorTextConfirm,
+                    errorStyle: const TextStyle(color: Colors.red),
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(225, 248, 86, 88),
                       ),
                     ),
-                    enabledBorder: UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(225, 248, 86, 88),
                       ),
                     ),
                   ),
+                  onChanged: (_) => setState(() {}),
                 ),
                 SizedBox(
                   height: 4.h,
@@ -183,7 +236,7 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
                 SizedBox(
-                  height: 10.h,
+                  height: 6.h,
                 ),
                 Container(
                   height: 15.h,
@@ -192,12 +245,16 @@ class _RegisterState extends State<Register> {
                     child: GestureDetector(
                       onTap: () {
                         try {
-                          _auth
-                              .register(_email.text, _password.text,
-                                  _username.text, _confirmPass.text)
-                              .then((value) {
-                            Navigator.pushNamed(context, '/signin2');
-                          });
+                          if (_email.value.text.isNotEmpty &&
+                              _password.value.text.isNotEmpty &&
+                              _confirmPass.value.text.isNotEmpty) {
+                            registerUser();
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Enter the correct values'),
+                            ));
+                          }
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(e.toString()),
