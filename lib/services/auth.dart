@@ -15,7 +15,7 @@ class Auth {
   @override
   Stream<User?> authStateChanges() => _auth.authStateChanges();
 
-  void _createNewUserInFirestore(String name, String email, String mobile) {
+  void _createNewUserInFirestore(String name, String email) {
     final User? user = currentUser;
     final CollectionReference<Map<String, dynamic>> usersRef =
         FirebaseFirestore.instance.collection('users');
@@ -23,7 +23,6 @@ class Auth {
       'id': user?.uid,
       'name': name,
       'email': email,
-      'mobile': mobile,
       // 'timestamp': documentIdFromCurrentDate(),
     });
   }
@@ -48,7 +47,7 @@ class Auth {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
-      _createNewUserInFirestore(name, email, mobile);
+      _createNewUserInFirestore(name, email);
       return user;
     } catch (e) {
       // ignore: avoid_print

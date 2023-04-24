@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goose_task/services/auth.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Register extends StatefulWidget {
@@ -14,6 +15,9 @@ class _RegisterState extends State<Register> {
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPass = TextEditingController();
   bool? _isChecked = false;
+
+  Auth _auth = Auth();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,6 +52,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 TextField(
+                  style: const TextStyle(color: Colors.white),
                   cursorColor: const Color.fromARGB(225, 248, 86, 88),
                   controller: _username,
                   decoration: const InputDecoration(
@@ -75,6 +80,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 TextField(
+                  style: const TextStyle(color: Colors.white),
                   cursorColor: const Color.fromARGB(225, 248, 86, 88),
                   controller: _email,
                   decoration: const InputDecoration(
@@ -102,6 +108,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 TextField(
+                  style: const TextStyle(color: Colors.white),
                   cursorColor: const Color.fromARGB(225, 248, 86, 88),
                   controller: _password,
                   decoration: const InputDecoration(
@@ -129,6 +136,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 TextField(
+                  style: const TextStyle(color: Colors.white),
                   cursorColor: const Color.fromARGB(225, 248, 86, 88),
                   controller: _confirmPass,
                   decoration: const InputDecoration(
@@ -183,7 +191,18 @@ class _RegisterState extends State<Register> {
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/profile');
+                        try {
+                          _auth
+                              .register(_email.text, _password.text,
+                                  _username.text, _confirmPass.text)
+                              .then((value) {
+                            Navigator.pushNamed(context, '/signin2');
+                          });
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(e.toString()),
+                          ));
+                        }
                       },
                       child: Container(
                         margin: const EdgeInsets.symmetric(

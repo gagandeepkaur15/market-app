@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:goose_task/screens/authToggle.dart';
-import 'package:goose_task/screens/bnb.dart';
 import 'package:goose_task/screens/profile.dart';
 import 'package:goose_task/screens/register.dart';
 import 'package:goose_task/screens/sell.dart';
@@ -33,14 +32,13 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Payment App',
-          initialRoute: '/signin',
+          initialRoute: '/',
           routes: {
             '/': ((context) => const AuthToggle()),
             '/signin': ((context) => const SignIn()),
             '/register': ((context) => const Register()),
             '/signin2': ((context) => const SignIn2()),
-            '/profile': ((context) => const Profile()),
-            '/bnb': ((context) => const BNB()),
+            '/profile': ((context) => Profile()),
             '/sell': ((context) => const Sell()),
           },
         ),

@@ -110,7 +110,7 @@ class SignIn extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, 'signin2');
+                Navigator.pushNamed(context, '/signin2');
               },
               child: Container(
                 margin:
@@ -123,13 +123,10 @@ class SignIn extends StatelessWidget {
                 ),
                 height: 8.h,
                 width: 55.h,
-                child: GestureDetector(
-                  onTap: () {},
-                  child: const Center(
-                    child: Text(
-                      'Sign in with Email',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                child: const Center(
+                  child: Text(
+                    'Sign in with Email',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),

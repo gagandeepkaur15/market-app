@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:goose_task/screens/bnb.dart';
 import 'package:goose_task/widgets/bnb.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../services/auth.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  Profile({super.key});
+
+  Auth _auth = Auth();
 
   @override
   Widget build(BuildContext context) {
@@ -330,7 +332,9 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      _auth.signOutFunction();
+                    },
                     child: Card(
                       color: Colors.transparent,
                       child: Container(
